@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard-container">
+    <div class="form-section1">
+        <h1>DASHBOARD</h1>
+        <form method="POST" action="{{ url_for('main.search') }}" class="search-form">
+            {{ form.hidden_tag() }}
+            <div class="location-form">
+                <div class="location-column">
+                    <h2>From</h2>
+                    <div class="form-group">
+                        <label for="from_country" class="form-label">Country:</label>
+                        {{ form.from_country(class="form-control") }}
+                        {% for error in form.from_country.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="from_state" class="form-label">State:</label>
+                        {{ form.from_state(class="form-control") }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="from_city" class="form-label">City:</label>
+                        {{ form.from_city(class="form-control") }}
+                    </div>
+                </div>
+
+                <div class="location-column">
+                    <h2>To</h2>
+                    <div class="form-group">
+                        <label for="to_country" class="form-label">Country:</label>
+                        {{ form.to_country(class="form-control") }}
+                        {% for error in form.to_country.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="to_state" class="form-label">State:</label>
+                        {{ form.to_state(class="form-control") }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="to_city" class="form-label">City:</label>
+                        {{ form.to_city(class="form-control") }}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fromCountrySelect = document.getElementById('from_country');
+        const fromStateSelect = document.getElementById('from_state');
+        const fromCitySelect = document.getElementById('from_city');
+
+        const toCountrySelect = document.getElementById('to_country');
+        const toStateSelect = document.getElementById('to_state');
+        const toCitySelect = document.getElementById('to_city');
+
+        fromCountrySelect.addEventListener('change', function () {
+            updateLocationOptions('from', fromCountrySelect, fromStateSelect, fromCitySelect);
+        });
+
+        fromStateSelect.addEventListener('change', function () {
+            updateCityOptions('from', fromCountrySelect, fromStateSelect, fromCitySelect);
+        });
+
+        toCountrySelect.addEventListener('change', function () {
+            updateLocationOptions('to', toCountrySelect, toStateSelect, toCitySelect);
+        });
+
+        toStateSelect.addEventListener('change', function () {
+            updateCityOptions('to', toCountrySelect, toStateSelect, toCitySelect);
+        });
+
+        function updateLocationOptions(type, countrySelect, stateSelect, citySelect) {
+            const selectedCountry = countrySelect.value;
+            stateSelect.innerHTML = '<option value="">Select a state</option>';
+            citySelect.innerHTML = '<option value="">Select a city</option>';
+            fetch(`/location_data?country=${selectedCountry}`)
+                .then(response => response.json())
+                .then(states => {
+                    states.forEach(function (state) {
+                        const option = document.createElement('option');
+                        option.value = state.name;
+                        option.textContent = state.name;
+                        stateSelect.appendChild(option);
+                    });
+                });
+        }
+
+        function updateCityOptions(type, countrySelect, stateSelect, citySelect) {
+            const selectedCountry = countrySelect.value;
+            const selectedState = stateSelect.value;
+            citySelect.innerHTML = '<option value="">Select a city</option>';
+            fetch(`/location_data?country=${selectedCountry}&state=${selectedState}`)
+                .then(response => response.json())
+                .then(cities => {
+                    cities.forEach(function (city) {
+                        const option = document.createElement('option');
+                        option.value = city.name;
+                        option.textContent = city.name;
+                        citySelect.appendChild(option);
+                    });
+                });
+        }
+    });
+</script>
+{% endblock %}

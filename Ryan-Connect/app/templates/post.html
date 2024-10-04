@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="post-container">
+    <div class="post-heading">
+        <h1>{{ post.from_location }} to {{ post.to_location }}</h1>
+    </div>
+
+    <div class="comments-section">
+        <h2>Comments</h2>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.content.label(class="form-label") }}
+                {{ form.content(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+
+        <div class="comments-list">
+            {% for comment in comments %}
+                {% set comment_data = comment %}
+                {% set depth = 0 %}
+                {% include 'replies.html' %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="similar-posts">
+        <h2>Similar Posts</h2>
+        <ul>
+            {% for similar_post in similar_posts %}
+                <li>
+                    <a href="{{ url_for('main.post', post_id=similar_post.id) }}">
+                        {{ similar_post.from_location }} to {{ similar_post.to_location }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.relative-time').forEach(function(element) {
+            var dateTime = element.getAttribute('data-time');
+            if (dateTime) {
+                // Assuming the server stores time in UTC
+                var localTime = moment.tz(dateTime, "UTC").local();
+                element.textContent = localTime.fromNow();
+            }
+        });
+
+        document.querySelectorAll('.toggle-replies-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const repliesSection = document.getElementById(`replies-${this.dataset.commentId}`);
+                const toggleIcon = this.querySelector('.toggle-icon');
+                repliesSection.style.display = repliesSection.style.display === 'none' ? 'block' : 'none';
+                toggleIcon.classList.toggle('fa-chevron-down');
+                toggleIcon.classList.toggle('fa-chevron-up');
+            });
+        });
+
+        document.querySelectorAll('.reply-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const replyForm = document.getElementById(`reply-form-${this.dataset.commentId}`);
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    });
+</script>
+{% endblock %}

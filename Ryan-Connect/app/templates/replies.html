@@ -1,0 +1,57 @@
+{% set max_depth = 5 %}
+{% if depth is not defined %}
+    {% set depth = 0 %}
+{% endif %}
+
+<div class="comment" id="comment-{{ comment_data.id }}">
+    <div class="comment-meta">
+        <span class="comment-icon">
+            <i class="fa fa-user"></i> {{ comment_data.user.first_name }} {{ comment_data.user.last_name }}
+        </span>
+        <span class="comment-icon">
+            <i class="fa fa-clock"></i>
+            <small class="relative-time" data-time="{{ comment_data.date_posted|toisoformat }}"></small>
+        </span>
+    </div>
+    <p>{{ comment_data.content }}</p>
+    <div class="comment-actions">
+        <div class="icon-container">
+            <span class="comment-icon">
+                <button class="reply-button" data-comment-id="{{ comment_data.id }}">
+                    <i class="fa fa-reply"></i>
+                </button>
+            </span>
+            {% if comment_data.replies %}
+            <span class="comment-icon">
+                <button class="toggle-replies-button" data-comment-id="{{ comment_data.id }}">
+                    <i class="toggle-icon fa fa-chevron-down"></i>
+                </button>
+            </span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="reply-form" id="reply-form-{{ comment_data.id }}" style="display: none;">
+        <form method="POST" action="">
+            {{ reply_form.hidden_tag() }}
+            <div class="form-group">
+                <label class="form-label" for="content">{{ reply_form.content.label }}</label>
+                {{ reply_form.content(class="form-control") }}
+            </div>
+            <input type="hidden" name="parent_id" value="{{ comment_data.id }}">
+            <div class="form-group">
+                {{ reply_form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+
+    {% if comment_data.replies and depth < max_depth %}
+    <div class="nested-replies" id="replies-{{ comment_data.id }}" style="display: none;">
+        {% for reply in comment_data.replies %}
+            {% set comment_data = reply %}
+            {% set depth = depth + 1 %}
+            {% include 'replies.html' %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>

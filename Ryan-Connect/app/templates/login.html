@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 style="color: goldenrod;">LOGIN</h1>
+<form method="POST" action="" class="form-section">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <label class="form-label" for="email">{{ form.email.label }}</label>
+        {{ form.email(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="password">{{ form.password.label }}</label>
+        {{ form.password(class="form-control") }}
+    </div>
+    <div class="form-group remember-me">
+        {{ form.remember(class="form-control") }}
+        <label class="form-label" for="remember">{{ form.remember.label }}</label>
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+       
+        <button class="forgot-password" >Forgot Password</button>
+    </div>
+    
+
+</form>
+<div class="image-container">
+    <img src="https://www.iom.int/sites/g/files/tmzbdl486/files/styles/social_media/public/banner/About%20Migration.jpg?h=fd2854b8&itok=ExrQcsyP" alt="Image">
+</div>
+{% endblock %}

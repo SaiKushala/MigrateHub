@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 style="color: goldenrod;">REGISTER</h1>
+<form method="POST" action="" class="form-section">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <label class="form-label" for="first_name">{{ form.first_name.label }}</label>
+        {{ form.first_name(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="last_name">{{ form.last_name.label }}</label>
+        {{ form.last_name(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="email">{{ form.email.label }}</label>
+        {{ form.email(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="preferred_language">{{ form.preferred_language.label }}</label>
+        {{ form.preferred_language(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="country">{{ form.country.label }}</label>
+        {{ form.country(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="state">{{ form.state.label }}</label>
+        {{ form.state(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="city">{{ form.city.label }}</label>
+        {{ form.city(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="password">{{ form.password.label }}</label>
+        {{ form.password(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="confirm_password">{{ form.confirm_password.label }}</label>
+        {{ form.confirm_password(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const countrySelect = document.getElementById('country');
+        const stateSelect = document.getElementById('state');
+        const citySelect = document.getElementById('city');
+
+        countrySelect.addEventListener('change', function () {
+            const selectedCountry = this.value;
+            stateSelect.innerHTML = '<option value="">Select a state</option>';
+            citySelect.innerHTML = '<option value="">Select a city</option>';
+            fetch(`/location_data?country=${selectedCountry}`)
+                .then(response => response.json())
+                .then(states => {
+                    states.forEach(function (state) {
+                        const option = document.createElement('option');
+                        option.value = state.name;
+                        option.textContent = state.name;
+                        stateSelect.appendChild(option);
+                    });
+                });
+        });
+
+        stateSelect.addEventListener('change', function () {
+            const selectedCountry = countrySelect.value;
+            const selectedState = this.value;
+            citySelect.innerHTML = '<option value="">Select a city</option>';
+            fetch(`/location_data?country=${selectedCountry}&state=${selectedState}`)
+                .then(response => response.json())
+                .then(cities => {
+                    cities.forEach(function (city) {
+                        const option = document.createElement('option');
+                        option.value = city.name;
+                        option.textContent = city.name;
+                        citySelect.appendChild(option);
+                    });
+                });
+        });
+    });
+</script>
+
+{% endblock %}

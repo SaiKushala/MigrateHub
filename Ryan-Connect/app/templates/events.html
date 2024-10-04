@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4f4444; /* Light background for contrast */
+        }
+        .events-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .events-container h1 {
+            text-align: center;
+            color: #2a9d8f; /* Calm green */
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+        .event-box {
+            background-color: #6ae9b2; 
+            color: #333333;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .event-box:hover {
+            transform: translateY(-5px);
+        }
+        .event-box h2 {
+            margin-top: 0;
+            color: #264653; /* Dark contrasting text for headers */
+            font-size: 1.8rem;
+        }
+        .event-box p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+        .event-box .event-date {
+            background-color: #2a9d8f; /* Date background */
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .event-box a {
+            color: #532637;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .event-box a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="events-container">
+        <h1>Upcoming Events</h1>
+
+        <div class="event-box">
+            <h2>Community Support Meetup</h2>
+            <p>
+                Join us for a meetup with other migrants to share experiences, connect with new friends, and receive support in your migration journey. Our community welcomes everyone!
+            </p>
+            <span class="event-date">October 10, 2024</span>
+            <a href="#">Learn more and register →</a>
+        </div>
+
+        <div class="event-box">
+            <h2>Legal Assistance Workshop</h2>
+            <p>
+                Attend this workshop to learn about the legal aspects of migration, including visas, work permits, and permanent residency. Our legal experts will be there to answer your questions.
+            </p>
+            <span class="event-date">October 18, 2024</span>
+            <a href="#">Sign up for the workshop →</a>
+        </div>
+
+        <div class="event-box">
+            <h2>Job Search Strategies Seminar</h2>
+            <p>
+                Discover the best strategies for job searching in a new country. This seminar will cover resume writing, networking, and tips for finding the right job opportunities.
+            </p>
+            <span class="event-date">October 25, 2024</span>
+            <a href="#">Reserve your spot →</a>
+        </div>
+
+        <div class="event-box">
+            <h2>Language and Integration Class</h2>
+            <p>
+                Improve your language skills and get tips on integrating into your new community. This class is perfect for those looking to enhance their communication skills.
+            </p>
+            <span class="event-date">November 2, 2024</span>
+            <a href="#">Join the class →</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
